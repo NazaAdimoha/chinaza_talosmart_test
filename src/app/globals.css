@@ -17,6 +17,6 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: var(--foreground-rgb);
   padding: 1rem;
 }
