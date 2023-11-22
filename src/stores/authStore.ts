@@ -10,15 +10,15 @@ interface Authstate {
     login: (data: LoginDataProps) => Promise<void>;
     logout: () => void;
 }
+// const queryClient = useQueryClient();
 
 export const useAuthStore = create<Authstate>((set) => {
-    const queryClient = useQueryClient();
 
     return {
         isLoggedIn: false,
         user: null,
         login: async (data) => {
-            const response = await queryClient.fetchQuery("login", () => ApiLogin(data));
+            const response = await ApiLogin(data);
             const result = response as any;
 
             //update the store if the login is successful
@@ -27,8 +27,7 @@ export const useAuthStore = create<Authstate>((set) => {
                 localStorage.setItem("user", JSON.stringify(result));
 
                 //store user data in reactquery cache
-                queryClient.setQueryData("user", result);
-                queryClient.invalidateQueries("posts");
+
             } else {
                 throw new Error(result.message);
             }
@@ -36,7 +35,7 @@ export const useAuthStore = create<Authstate>((set) => {
         logout: () => {
             set({ isLoggedIn: false, user: null });
             localStorage.removeItem("user");
-            queryClient.invalidateQueries("posts");
+            // queryClient.invalidateQueries("posts");
         },
     }
 });

@@ -2,6 +2,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { LoginDataProps, RegisterDataProps } from "@/utils/authTypes";
 import { useQueryClient } from "react-query";
 import { login as ApiLogin, register as ApiRegister } from "@/app/services/api";
+import { postToast } from "@/components/toast";
 
 
 export const useAuth = () => {
@@ -15,6 +16,7 @@ export const useAuth = () => {
             if (res.status === 200) {
                 authStore.login(res);
                 localStorage.setItem("user", JSON.stringify(res));
+                postToast({ message: "Login successfully" || res.message, action: "success" })
                 //store user data in reactquery cache
                 queryClient.setQueryData("user", res);
                 queryClient.invalidateQueries("posts");
@@ -46,5 +48,13 @@ export const useAuth = () => {
             throw error;
         }
     };
+
+    const logout = () => {
+        authStore.logout();
+        localStorage.removeItem("user");
+        queryClient.invalidateQueries("posts");
+    };
+
+    return { login, register, logout };
 
 };
