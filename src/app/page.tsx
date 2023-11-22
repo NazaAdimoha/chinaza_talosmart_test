@@ -1,5 +1,5 @@
-import { LoginForm } from '@/components/loginForm'
-import { RegisterForm } from '@/components/registerForm'
+import { LoginForm } from '@/components/loginForm/page'
+import { RegisterForm } from '@/components/registerForm/page'
 import Image from 'next/image'
 
 export default function Home() {

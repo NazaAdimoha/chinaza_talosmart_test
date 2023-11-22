@@ -2,7 +2,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { LoginDataProps, RegisterDataProps } from "@/utils/authTypes";
 import { useQueryClient } from "react-query";
 import { login as ApiLogin, register as ApiRegister } from "@/app/services/api";
-import { postToast } from "@/components/toast";
+import { postToast } from "@/components/toast/page";
 
 
 export const useAuth = () => {
