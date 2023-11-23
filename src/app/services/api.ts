@@ -15,25 +15,25 @@ const api = axios.create({
 //login endpoint
 export const login = async (data: LoginDataProps) => {
     const response = await api.post("login", data);
-    return response.data;
+    return response;
 }
 
 //register endpoint
 export const register = async (data: RegisterDataProps) => {
     const response = await api.post("register", data);
-    return response.data;
+    return response;
 }
 
 //create post endpoint
 export const createPost = async (data: PostDataProps) => {
     const response = await api.post("posts", data);
-    return response.data;
+    return response;
 }
 
 //create post with image endpoint
 export const createPostWithImage = async (data: PostDataImageProps) => {
     const response = await api.post("createpost", data);
-    return response.data;
+    return response;
 }
 
 //get all posts by email endpoint

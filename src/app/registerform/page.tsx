@@ -1,47 +1,37 @@
 "use client";
 import Image from "next/image";
-import LoginImg from "../../../public/social-media.jpg";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { loginSchema } from "@/utils/validationSchema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useAuth } from "@/hooks/useAuth";
-import { LoginDataProps } from "@/utils/authTypes";
-import { useState } from "react";
-import { Oval } from "react-loader-spinner";
+import RegisterImg from "../../../public/frenzy.jpg";
 import Link from "next/link";
-import Toast, { postToast } from "../toast/page";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerSchema } from "@/utils/validationSchema";
+import { useForm } from "react-hook-form";
+import { useAuth } from "@/hooks/useAuth";
+import Toast, { postToast } from "../components/toast/page";
+import { Oval } from "react-loader-spinner";
 
-interface LoginFormProps {
-    onSuccess?: () => void;
-}
+const RegisterForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { register, handleSubmit, formState: { errors } } = useForm({
+      resolver: yupResolver(registerSchema),
+  });
 
-export const LoginForm = ({
-    onSuccess = () => {}
-}: LoginFormProps) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
-    const { register, handleSubmit, watch, formState: { errors }, setError } = useForm({
-        resolver: yupResolver(loginSchema),
-    });
+  const { registerUser } = useAuth();
 
-    const { username, password } = watch();
-    const { login } = useAuth();
-    const onSubmit = async (data: LoginDataProps) => {
-        try {
-            setIsLoading(true);
-            await login(data);
-            onSuccess();
-            
-            postToast({ message: "Login successfully", action: "success" });
-            router.push("/dashboard");
-        } catch (error: any) {
-            postToast({ message: error.message || "Login Failed", action: "error" });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+      try {
+          await registerUser(data);
+          postToast({ message: "Login Successful", action: "success" });
+          return router.push('/loginform');
+      } catch (error: any) {
+          postToast({ message: error.message || "Login Failed", action: "error" });
+      } finally {
+          setIsLoading(false);
+      }
+  };
   return (
     <section className="bg-white">
       <div className="flex justify-center min-h-screen">
@@ -49,7 +39,7 @@ export const LoginForm = ({
           <div className="flex items-center shadow-lg h-screen w-full ">
             <Image
               className="w-full h-screen object-cover rounded-md shadow-lg"
-              src={LoginImg}
+              src={RegisterImg}
               alt="social media image"
             />
           </div>
@@ -63,7 +53,7 @@ export const LoginForm = ({
               </div>
 
               <p className="mt-3 text-gray-500 ">
-                Sign in to access your account
+                Welcome to Talosmart
               </p>
             </div>
 
@@ -82,7 +72,7 @@ export const LoginForm = ({
                     {...register("username")}
                     className={`${errors && errors.username && 'border border-red-600 focus:border-red-600' } block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-100 rounded-lg  focus:border-blue-200 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-20`}
                   />
-                  {errors && errors.username && (<p className="text-red-500 text-sm">{errors.username.message}</p>)}
+                                    {errors && errors.username && (<p className="text-red-500 text-sm">{errors.username.message}</p>)}
                 </div>
 
                 <div className="mt-6">
@@ -107,12 +97,12 @@ export const LoginForm = ({
                     {...register("password")}
                     className={`${errors && errors.username && 'border border-red-600 focus:border-red-600'} block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-200 focus:ring-blue-200 focus:outline-none focus:ring focus:ring-opacity-20`}
                   />
-                  {errors && errors.password && (<p className="text-red-500 text-sm">{errors.password.message}</p>)}
+                                    {errors && errors.password && (<p className="text-red-500 text-sm">{errors.password.message}</p>)}
                 </div>
 
                 <div className="mt-6">
-                  <button type="submit" disabled={isLoading} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-700 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-200 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                    {
+                  <button type="submit" disabled={isLoading} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-200 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                  {
                         isLoading ? (
                             <Oval
                             ariaLabel="loading-indicator"
@@ -125,7 +115,7 @@ export const LoginForm = ({
                             wrapperClass="oval-wrapper"
                             />
                         ) : (
-                            "Sign in"
+                            "Sign up"
                         )
                     }
                   </button>
@@ -134,12 +124,12 @@ export const LoginForm = ({
 
               <p className="mt-6 text-sm text-center text-gray-400">
                 Don&#x27;t have an account yet?{" "}
-                <a
-                  href="#"
+                <Link
+                  href="/loginform"
                   className="text-blue-500 focus:outline-none focus:underline hover:underline"
                 >
-                  Sign up
-                </a>
+                  Sign in
+                </Link>
                 .
               </p>
             </div>
@@ -150,3 +140,5 @@ export const LoginForm = ({
     </section>
   );
 };
+
+export default RegisterForm;
