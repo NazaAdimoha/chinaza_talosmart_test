@@ -1,11 +1,11 @@
-import { createPostWithImage, createPost as createPosts, getAllPostsByEmail } from "@/app/services/api";
+import { createPostWithImage, createPost, getAllPostsByEmail } from "@/app/services/api";
 import { PostDataImageProps, PostDataProps } from "@/utils/postTypes";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useCreatePost = () => {
     const queryClient = useQueryClient();
 
-    return useMutation((data: PostDataProps) => createPosts(data), {
+    return useMutation((data: PostDataProps) => createPost(data), {
         onSuccess: () => {
             queryClient.invalidateQueries("posts");
         },

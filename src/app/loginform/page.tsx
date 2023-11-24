@@ -63,7 +63,7 @@ const LoginForm = ({
               </div>
 
               <p className="mt-3 text-gray-500 ">
-                Sign in to access your account
+                Sign in to Gain access your account
               </p>
             </div>
 
