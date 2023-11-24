@@ -6,13 +6,21 @@ import Logo from "../../../../public/next.svg";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import path from "path";
+import { useAuthStore } from "@/stores/authStore";
 
 const Navbar = () => {
     const [nav, setNav] = useState(false);
     const [shadow, setShadow] = useState(false);
     const [navBg, setNavBg] = useState("#ecf0f3");
     const [linksColor, setLinksColor] = useState("#fff");
+    
+    const { isLoggedIn, logout } = useAuthStore()
     const router = useRouter();
+
+    const handleLogout = () => {
+        logout();
+        router.push("/loginform");
+    }
 
     useEffect(() => {
             setNavBg("#ecf0f3");
@@ -49,19 +57,25 @@ const Navbar = () => {
           <Image src={Logo} alt="logo" width={60} height={60} />
         </Link>
         <div>
-          <ul style={{ color: `${linksColor}` }} className="hidden md:flex">
-            <Link href="/">
-              <li className="text-sm ml-10 uppercase hover:border-b ">Home</li>
-            </Link>
-            <Link href="/#about">
-              <li className="text-sm ml-10 uppercase hover:border-b ">Posts</li>
-            </Link>
-            <Link href="/">
-              <li className="text-sm ml-10 uppercase hover:border-b ">
-                Logout
-              </li>
-            </Link>
-          </ul>
+            {
+                isLoggedIn ? (
+                    <ul style={{ color: `${linksColor}` }} className="hidden md:flex">
+                        <Link href="/">
+                            <li className="text-sm ml-10 uppercase hover:border-b ">Home</li>
+                        </Link>
+                        <Link href="/#about">
+                            <li className="text-sm ml-10 uppercase hover:border-b ">Posts</li>
+                        </Link>
+                    </ul>
+                ) : (
+                    <ul style={{ color: `${linksColor}` }} className="hidden md:flex">
+                        <li onClick={handleLogout} className="text-sm ml-10 uppercase hover:border-b ">
+                            Logout
+                        </li>
+                    </ul>
+                )
+            }
+
           {/* Hamburger Icon */}
           <div onClick={handleNav} className="md:hidden">
             <AiOutlineMenu size={25} />
@@ -101,32 +115,50 @@ const Navbar = () => {
             </div>
           </div>
           <div className="py-4 flex flex-col">
-            <ul className="uppercase">
-              <Link href="/">
-                <li
-                  onClick={() => setNav(false)}
-                  className="py-4 text-sm ml-10 uppercase hover:border-b "
-                >
-                  Home
-                </li>
-              </Link>
-              <Link href="/#about">
-                <li
-                  onClick={() => setNav(false)}
-                  className="py-4 text-sm ml-10 uppercase hover:border-b "
-                >
-                  Posts
-                </li>
-              </Link>
-              <Link href="/">
-                <li
-                  onClick={() => setNav(false)}
-                  className="py-4 text-sm ml-10 uppercase hover:border-b "
-                >
-                  Logout
-                </li>
-              </Link>
-            </ul>
+            {
+                isLoggedIn ? (
+                    <ul className="uppercase">
+                        <Link href="/">
+                            <li
+                                onClick={() => setNav(false)}
+                                className="py-4 text-sm ml-10 uppercase hover:border-b "
+                            >
+                                Home
+                            </li>
+                        </Link>
+                        <Link href="/#about">
+                            <li
+                                onClick={() => setNav(false)}
+                                className="py-4 text-sm ml-10 uppercase hover:border-b "
+                            >
+                                Posts
+                            </li>
+                        </Link>
+                        <li
+                            onClick={handleLogout}
+                            className="py-4 text-sm ml-10 uppercase hover:border-b cursor-pointer"
+                        >
+                            Logout
+                        </li>
+
+                    </ul>
+                ) : (
+                    <ul 
+                        style={{ color: `${linksColor}` }} 
+                        className="uppercase"
+                    >
+                        
+                    <Link href="/loginform">
+                        <li
+                            onClick={() => setNav(false)}
+                            className="py-4 text-sm ml-10 uppercase hover:border-b cursor-pointer"
+                        >
+                            Login
+                        </li>
+                    </Link>
+                    </ul>
+                )
+            }
           </div>
         </div>
       </div>

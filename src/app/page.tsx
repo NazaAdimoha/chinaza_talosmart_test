@@ -7,9 +7,8 @@ export default function Home() {
   return (
     <main>
       <LoginForm />
-      <Dashboard />
       <RegisterForm />
-      {/* <RegisterForm /> */}
+      <Dashboard />
     </main>
   )
 }
