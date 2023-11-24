@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/utils/validationSchema";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/hooks/useAuth";
-import Toast, { postToast } from "../components/toast/page";
+import Toast, { postToast } from "../components/toast/Toast";
 import { Oval } from "react-loader-spinner";
 
 const RegisterForm = () => {

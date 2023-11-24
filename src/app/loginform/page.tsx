@@ -10,7 +10,7 @@ import { LoginDataProps } from "@/utils/authTypes";
 import { useEffect, useState } from "react";
 import { Oval } from "react-loader-spinner";
 import Link from "next/link";
-import Toast, { postToast } from "../components/toast/page";
+import Toast, { postToast } from "../components/toast/Toast";
 
 interface LoginFormProps {
     onSuccess?: () => void;

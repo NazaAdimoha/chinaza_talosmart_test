@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { postSchema } from "@/utils/validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import Toast, { postToast } from "../toast/page";
+import Toast, { postToast } from "../toast/Toast";
 
 const PostForm = () => {
   const authStore = useAuthStore();
