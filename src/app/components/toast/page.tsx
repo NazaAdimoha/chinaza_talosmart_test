@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type CloseButtonProps = {
-  closeToast: React.MouseEventHandler;
+  closeToast: any;
 };
 type PostToastProps = {
   message: string;
